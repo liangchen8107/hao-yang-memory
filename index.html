@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灏杨的中考冲刺日记</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        .btn {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4f46e5;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #6366f1;
+            color: #6366f1;
+        }
+        
+        .btn-outline:hover {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 4px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tag-chinese { background-color: #fee2e2; color: #dc2626; }
+        .tag-math { background-color: #ede9fe; color: #7c3aed; }
+        .tag-english { background-color: #dbeafe; color: #2563eb; }
+        .tag-physics { background-color: #fef3c7; color: #d97706; }
+        .tag-chemistry { background-color: #d1fae5; color: #059669; }
+        .tag-politics { background-color: #ffedd5; color: #ea580c; }
+        .tag-history { background-color: #f3e8ff; color: #9333ea; }
+        
+        .placeholder {
+            background: #f3f4f6;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            margin: 10px 0;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app">
+        <!-- 主要内容 -->
+        <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+            <!-- 头部 -->
+            <div class="header" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+                <h1 style="font-size: 1.8rem; font-weight: bold;">灏杨的中考冲刺日记</h1>
+                <p style="opacity: 0.9;">上海市中考备考专用</p>
+            </div>
+            
+            <!-- 学习进度 -->
+            <div class="card">
+                <div style="padding: 16px;">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; color: #1f2937; margin-bottom: 12px;">中考学科进度</h3>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 500;">语文</span>
+                            <span style="font-size: 0.9rem;">105/120</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div style="width: 60%;" class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.8rem; margin-top: 4px;">
+                            <span>当前: 105</span>
+                            <span>目标: 120</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 500;">数学</span>
+                            <span style="font-size: 0.9rem;">125/140</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div style="width: 75%;" class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.8rem; margin-top: 4px;">
+                            <span>当前: 125</span>
+                            <span>目标: 140</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 500;">英语</span>
+                            <span style="font-size: 0.9rem;">118/135</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div style="width: 65%;" class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.8rem; margin-top: 4px;">
+                            <span>当前: 118</span>
+                            <span>目标: 135</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 500;">物理</span>
+                            <span style="font-size: 0.9rem;">85/95</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div style="width: 70%;" class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.8rem; margin-top: 4px;">
+                            <span>当前: 85</span>
+                            <span>目标: 95</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 500;">化学</span>
+                            <span style="font-size: 0.9rem;">78/90</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div style="width: 55%;" class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.8rem; margin-top: 4px;">
+                            <span>当前: 78</span>
+                            <span>目标: 90</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 本周学习计划 -->
+            <div class="card">
+                <div style="padding: 16px;">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; color: #1f2937; margin-bottom: 12px;">本周学习计划</h3>
+                    
+                    <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong>第1周：基础复习</strong>
+                            <span style="color: #059669;"><i class="fas fa-check-circle"></i> 已完成</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <span class="tag tag-math">数学</span>
+                            <span class="tag tag-english">英语</span>
+                        </div>
+                        <p style="color: #6b7280; font-size: 0.9rem;">完成基础知识点梳理，整理错题本</p>
+                    </div>
+                    
+                    <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong>第2周：难点突破</strong>
+                            <span style="color: #059669;"><i class="fas fa-spinner"></i> 进行中</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <span class="tag tag-chinese">语文</span>
+                            <span class="tag tag-physics">物理</span>
+                        </div>
+                        <p style="color: #6b7280; font-size: 0.9rem;">重点突破阅读理解和物理实验题</p>
+                    </div>
+                    
+                    <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong>第3周：综合提升</strong>
+                            <span style="color: #9ca3af;"><i class="fas fa-clock"></i> 未开始</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <span class="tag tag-chemistry">化学</span>
+                            <span class="tag tag-politics">政治</span>
+                        </div>
+                        <p style="color: #6b7280; font-size: 0.9rem;">进行综合练习，查漏补缺</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 记录功能说明 -->
+            <div class="card">
+                <div style="padding: 16px;">
+                    <h3 style="font-size: 1.3rem; font-weight: bold; color: #1f2937; margin-bottom: 12px;">如何记录成长点滴</h3>
+                    
+                    <div class="placeholder">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; color: #9ca3af; margin-bottom: 12px;"></i>
+                        <h4 style="color: #4b5563; margin-bottom: 8px;">拍照上传说明</h4>
+                        <p style="color: #6b7280; margin-bottom: 12px;">
+                            本页面为演示版本，实际使用时您需要：
+                        </p>
+                        <ol style="text-align: left; color: #6b7280; margin: 0 20px;">
+                            <li>在手机上打开此网页</li>
+                            <li>点击"添加记录"按钮</li>
+                            <li>选择"拍照"或"从相册选择"</li>
+                            <li>拍摄或选择试卷、生活照片</li>
+                            <li>填写标题和描述</li>
+                            <li>保存记录</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap;">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus" style="margin-right: 6px;"></i>
+                            添加新记录
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-sync" style="margin-right: 6px;"></i>
+                            同步数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 示例记录 -->
+            <div class="card">
+                <div style="padding: 16px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <img src="https://placehold.co/40x40/6366f1/ffffff?text=妈" alt="妈妈" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px;">
+                        <div>
+                            <strong style="color: #1f2937;">妈妈</strong>
+                            <div style="color: #6b7280; font-size: 0.8rem;">2024-01-15</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="font-size: 1.1rem; font-weight: bold; color: #1f2937; margin-bottom: 8px;">数学月考分析</h4>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <span class="tag tag-math">数学</span>
+                        <span class="tag tag-chinese">月考</span>
+                    </div>
+                    
+                    <div class="placeholder">
+                        <i class="fas fa-file-alt" style="font-size: 2rem; color: #9ca3af; margin-bottom: 12px;"></i>
+                        <p style="color: #6b7280; margin: 0;">
+                            试卷照片将显示在这里
+                        </p>
+                    </div>
+                    
+                    <p style="color: #4b5563; line-height: 1.6; margin-bottom: 12px;">
+                        本次数学月考成绩125分，比上次进步8分！主要进步在几何证明题和函数应用题部分。
+                        错题本已整理完成，重点复习了相似三角形的判定方法和二次函数的图像性质。
+                    </p>
+                    
+                    <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.9rem; padding-top: 12px; border-top: 1px solid #e5e7eb;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <span><i class="far fa-eye"></i> 23</span>
+                            <span><i class="far fa-comment"></i> 5</span>
+                            <span><i class="far fa-heart"></i> 12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 生活记录示例 -->
+            <div class="card">
+                <div style="padding: 16px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <img src="https://placehold.co/40x40/8b5cf6/ffffff?text=爸" alt="爸爸" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px;">
+                        <div>
+                            <strong style="color: #1f2937;">爸爸</strong>
+                            <div style="color: #6b7280; font-size: 0.8rem;">2024-01-16</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="font-size: 1.1rem; font-weight: bold; color: #1f2937; margin-bottom: 8px;">周末篮球时光</h4>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <span class="tag tag-english">运动</span>
+                        <span class="tag tag-history">亲子时光</span>
+                    </div>
+                    
+                    <div class="placeholder">
+                        <i class="fas fa-running" style="font-size: 2rem; color: #9ca3af; margin-bottom: 12px;"></i>
+                        <p style="color: #6b7280; margin: 0;">
+                            运动照片将显示在这里
+                        </p>
+                    </div>
+                    
+                    <p style="color: #4b5563; line-height: 1.6; margin-bottom: 12px;">
+                        周末和灏杨一起打篮球，运动1小时。运动后学习效率明显提高，头脑更清醒了。
+                        劳逸结合，保持身心健康，为中考冲刺储备能量！
+                    </p>
+                    
+                    <div style="display: flex; justify-content: space-between; color: #6b7280; font-size: 0.9rem; padding-top: 12px; border-top: 1px solid #e5e7eb;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <span><i class="far fa-eye"></i> 18</span>
+                            <span><i class="far fa-comment"></i> 3</span>
+                            <span><i class="far fa-heart"></i> 15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 页脚 -->
+            <div style="text-align: center; color: #6b7280; font-size: 0.8rem; margin-top: 20px; padding: 10px;">
+                <p>© 2024 灏杨的中考冲刺日记</p>
+                <p style="margin-top: 4px;">专注上海市中考备考，记录每一个奋斗瞬间</p>
+                <p style="margin-top: 8px; font-size: 0.7rem;">
+                    提示：在手机浏览器中打开可使用拍照和相册功能
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
