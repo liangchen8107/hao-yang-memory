@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生活记录 - 灏杨的初三日记</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .main-container {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .life-form {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-custom {
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success-color), #10b981);
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+            color: white;
+        }
+
+        .btn-warning-custom {
+            background: linear-gradient(135deg, var(--warning-color), #f59e0b);
+            color: white;
+        }
+
+        .btn-warning-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+            color: white;
+        }
+
+        .life-entry {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .life-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .entry-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .entry-type {
+            background: linear-gradient(135deg, var(--success-color), #10b981);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .entry-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .entry-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .entry-image:hover {
+            transform: scale(1.05);
+        }
+
+        .entry-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .entry-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .entry-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .mood-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .mood-happy { background: linear-gradient(135deg, #28a745, #20c997); color: white; }
+        .mood-good { background: linear-gradient(135deg, #17a2b8, #6f42c1); color: white; }
+        .mood-normal { background: linear-gradient(135deg, #ffc107, #fd7e14); color: white; }
+        .mood-bad { background: linear-gradient(135deg, #dc3545, #e74c3c); color: white; }
+        .mood-terrible { background: linear-gradient(135deg, #6c757d, #495057); color: white; }
+
+        .filter-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--border-color);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .image-upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .image-upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .uploaded-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .uploaded-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .uploaded-image img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(239, 68, 68, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .life-form {
+                padding: 20px;
+            }
+            
+            .entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .entry-stats {
+                gap: 15px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .entry-images {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i>灏杨的初三日记
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="study.html">
+                            <i class="fas fa-book me-1"></i>学习记录
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exams.html">
+                            <i class="fas fa-file-alt me-1"></i>试卷管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="life.html">
+                            <i class="fas fa-camera me-1"></i>生活记录
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="progress.html">
+                            <i class="fas fa-chart-line me-1"></i>学习进度
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="main-container">
+        <!-- 生活记录表单 -->
+        <div class="life-form">
+            <h2 class="mb-4">
+                <i class="fas fa-plus-circle text-primary me-2"></i>记录生活点滴
+            </h2>
+            <form id="lifeForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="lifeDate" class="form-label">记录日期</label>
+                        <input type="date" class="form-control" id="lifeDate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lifeType" class="form-label">记录类型</label>
+                        <select class="form-select" id="lifeType" required>
+                            <option value="">请选择类型</option>
+                            <option value="运动">运动</option>
+                            <option value="生活">生活</option>
+                            <option value="感悟">感悟</option>
+                            <option value="美食">美食</option>
+                            <option value="旅行">旅行</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="lifeContent" class="form-label">生活内容</label>
+                        <textarea class="form-control" id="lifeContent" rows="4" placeholder="记录今天的生活点滴，分享你的感受..." required></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lifeMood" class="form-label">心情状态</label>
+                        <select class="form-select" id="lifeMood" required>
+                            <option value="">请选择心情</option>
+                            <option value="非常开心">非常开心 😊</option>
+                            <option value="比较开心">比较开心 😄</option>
+                            <option value="一般">一般 😐</option>
+                            <option value="有点沮丧">有点沮丧 😔</option>
+                            <option value="很沮丧">很沮丧 😢</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lifeTags" class="form-label">标签</label>
+                        <input type="text" class="form-control" id="lifeTags" placeholder="用逗号分隔，如：跑步,健康,坚持">
+                    </div>
+                </div>
+                
+                <!-- 图片上传区域 -->
+                <div class="mt-4">
+                    <label class="form-label">上传照片</label>
+                    <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+                        <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-2"></i>
+                        <p class="mb-0">点击或拖拽上传照片</p>
+                        <small class="text-muted">支持 JPG、PNG 格式，最多上传 9 张</small>
+                        <input type="file" id="imageInput" class="d-none" multiple accept="image/*">
+                    </div>
+                    <div class="uploaded-images" id="uploadedImages"></div>
+                </div>
+                
+                <div class="mt-4 text-end">
+                    <button type="button" class="btn btn-secondary me-2" onclick="resetForm()">重置</button>
+                    <button type="submit" class="btn-custom btn-primary-custom">
+                        <i class="fas fa-save me-2"></i>保存记录
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 筛选和搜索 -->
+        <div class="filter-section">
+            <h3 class="filter-title">
+                <i class="fas fa-filter me-2"></i>筛选和搜索
+            </h3>
+            <div class="filter-controls">
+                <div class="flex-grow-1">
+                    <input type="text" class="form-control" id="searchInput" placeholder="搜索生活内容...">
+                </div>
+                <div>
+                    <select class="form-select" id="typeFilter">
+                        <option value="">所有类型</option>
+                        <option value="运动">运动</option>
+                        <option value="生活">生活</option>
+                        <option value="感悟">感悟</option>
+                        <option value="美食">美食</option>
+                        <option value="旅行">旅行</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div>
+                    <select class="form-select" id="moodFilter">
+                        <option value="">所有心情</option>
+                        <option value="非常开心">非常开心</option>
+                        <option value="比较开心">比较开心</option>
+                        <option value="一般">一般</option>
+                        <option value="有点沮丧">有点沮丧</option>
+                        <option value="很沮丧">很沮丧</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="date" class="form-control" id="dateFilter">
+                </div>
+                <div>
+                    <button class="btn-custom btn-primary-custom" onclick="applyFilters()">
+                        <i class="fas fa-search me-1"></i>筛选
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生活记录列表 -->
+        <div id="lifeEntries">
+            <h3 class="mb-4">
+                <i class="fas fa-list me-2"></i>生活记录
+                <span class="badge bg-primary ms-2" id="entryCount">0</span>
+            </h3>
+            <div id="entriesList">
+                <!-- 示例记录 -->
+                <div class="life-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">2024年1月15日</div>
+                        <div class="entry-type">运动</div>
+                    </div>
+                    
+                    <div class="entry-images">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2Y4ZjlmYSIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2NDc0OGIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mm7TlpJo8L3RleHQ+Cjwvc3ZnPg==" alt="运动照片" class="entry-image" onclick="openImageModal(this.src)">
+                    </div>
+                    
+                    <div class="entry-content">
+                        今天下午去公园跑步，跑了5公里，感觉身体状态很好。天气也很不错，阳光明媚，心情特别舒畅。跑步后还做了一些拉伸运动，感觉全身都很放松。
+                    </div>
+                    
+                    <div class="entry-tags">
+                        <span class="tag">跑步</span>
+                        <span class="tag">健康</span>
+                        <span class="tag">坚持</span>
+                    </div>
+                    
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-happy">非常开心</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock text-primary"></i>
+                            <span>运动时长：45分钟</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="life-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">2024年1月14日</div>
+                        <div class="entry-type">感悟</div>
+                    </div>
+                    
+                    <div class="entry-content">
+                        今天学习了一整天，虽然很累，但是感觉很充实。晚上和妈妈一起散步，聊了很多关于未来的想法。妈妈说我长大了，有自己的想法了，这让我感到很自豪。初三虽然压力大，但是有家人的支持，我觉得自己一定能坚持下去。
+                    </div>
+                    
+                    <div class="entry-tags">
+                        <span class="tag">成长</span>
+                        <span class="tag">家庭</span>
+                        <span class="tag">感悟</span>
+                    </div>
+                    
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-good">比较开心</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-heart text-danger"></i>
+                            <span>温馨时刻</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-camera"></i>
+                <h3>还没有生活记录</h3>
+                <p>开始记录你的生活点滴吧！</p>
+                <button class="btn-custom btn-primary-custom" onclick="scrollToForm()">
+                    <i class="fas fa-plus me-2"></i>添加第一条记录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片预览模态框 -->
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="modal-image" src="" alt="图片">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义JavaScript -->
+    <script>
+        // 生活记录数据
+        let lifeEntries = [
+            {
+                id: 1,
+                date: '2024-01-15',
+                type: '运动',
+                content: '今天下午去公园跑步，跑了5公里，感觉身体状态很好。天气也很不错，阳光明媚，心情特别舒畅。跑步后还做了一些拉伸运动，感觉全身都很放松。',
+                mood: '非常开心',
+                tags: ['跑步', '健康', '坚持'],
+                images: ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2Y4ZjlmYSIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2NDc0OGIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mm7TlpJo8L3RleHQ+Cjwvc3ZnPg=='],
+                duration: '45分钟'
+            },
+            {
+                id: 2,
+                date: '2024-01-14',
+                type: '感悟',
+                content: '今天学习了一整天，虽然很累，但是感觉很充实。晚上和妈妈一起散步，聊了很多关于未来的想法。妈妈说我长大了，有自己的想法了，这让我感到很自豪。初三虽然压力大，但是有家人的支持，我觉得自己一定能坚持下去。',
+                mood: '比较开心',
+                tags: ['成长', '家庭', '感悟'],
+                images: [],
+                duration: '温馨时刻'
+            }
+        ];
+
+        let uploadedImages = [];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置今天的日期
+            document.getElementById('lifeDate').value = new Date().toISOString().split('T')[0];
+            
+            // 渲染生活记录
+            renderLifeEntries();
+            
+            // 绑定事件
+            document.getElementById('lifeForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('imageInput').addEventListener('change', handleImageSelect);
+            document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 300));
+            document.getElementById('typeFilter').addEventListener('change', applyFilters);
+            document.getElementById('moodFilter').addEventListener('change', applyFilters);
+            document.getElementById('dateFilter').addEventListener('change', applyFilters);
+            
+            // 拖拽上传
+            setupDragAndDrop();
+        });
+
+        // 处理表单提交
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: Date.now(),
+                date: document.getElementById('lifeDate').value,
+                type: document.getElementById('lifeType').value,
+                content: document.getElementById('lifeContent').value,
+                mood: document.getElementById('lifeMood').value,
+                tags: document.getElementById('lifeTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                images: uploadedImages.map(img => img.url),
+                duration: uploadedImages.length > 0 ? '已记录' : '无图片'
+            };
+
+            // 添加到数组开头
+            lifeEntries.unshift(formData);
+            
+            // 保存到本地存储
+            localStorage.setItem('lifeEntries', JSON.stringify(lifeEntries));
+            
+            // 重新渲染
+            renderLifeEntries();
+            
+            // 重置表单
+            resetForm();
+            
+            // 显示成功消息
+            showAlert('生活记录保存成功！', 'success');
+            
+            // 滚动到记录列表
+            document.getElementById('lifeEntries').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 处理图片选择
+        function handleImageSelect(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.type.startsWith('image/') && uploadedImages.length < 9) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        uploadedImages.push({
+                            url: e.target.result,
+                            file: file
+                        });
+                        renderUploadedImages();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // 渲染已上传的图片
+        function renderUploadedImages() {
+            const container = document.getElementById('uploadedImages');
+            container.innerHTML = uploadedImages.map((img, index) => `
+                <div class="uploaded-image">
+                    <img src="${img.url}" alt="上传的图片">
+                    <button class="remove-image" onclick="removeImage(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // 移除图片
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            renderUploadedImages();
+        }
+
+        // 设置拖拽上传
+        function setupDragAndDrop() {
+            const uploadArea = document.querySelector('.image-upload-area');
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = Array.from(e.dataTransfer.files);
+                files.forEach(file => {
+                    if (file.type.startsWith('image/') && uploadedImages.length < 9) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            uploadedImages.push({
+                                url: e.target.result,
+                                file: file
+                            });
+                            renderUploadedImages();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('lifeForm').reset();
+            document.getElementById('lifeDate').value = new Date().toISOString().split('T')[0];
+            uploadedImages = [];
+            renderUploadedImages();
+        }
+
+        // 渲染生活记录
+        function renderLifeEntries() {
+            const entriesList = document.getElementById('entriesList');
+            const emptyState = document.getElementById('emptyState');
+            const entryCount = document.getElementById('entryCount');
+            
+            // 从本地存储加载数据
+            const savedEntries = localStorage.getItem('lifeEntries');
+            if (savedEntries) {
+                lifeEntries = JSON.parse(savedEntries);
+            }
+            
+            if (lifeEntries.length === 0) {
+                entriesList.style.display = 'none';
+                emptyState.style.display = 'block';
+                entryCount.textContent = '0';
+                return;
+            }
+            
+            entriesList.style.display = 'block';
+            emptyState.style.display = 'none';
+            entryCount.textContent = lifeEntries.length;
+            
+            // 渲染记录
+            entriesList.innerHTML = lifeEntries.map(entry => `
+                <div class="life-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">${formatDate(entry.date)}</div>
+                        <div class="entry-type">${entry.type}</div>
+                    </div>
+                    
+                    ${entry.images && entry.images.length > 0 ? `
+                        <div class="entry-images">
+                            ${entry.images.map(img => `
+                                <img src="${img}" alt="生活照片" class="entry-image" onclick="openImageModal('${img}')">
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="entry-content">${entry.content}</div>
+                    
+                    ${entry.tags && entry.tags.length > 0 ? `
+                        <div class="entry-tags">
+                            ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-${getMoodClass(entry.mood)}">${entry.mood}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock text-primary"></i>
+                            <span>${entry.duration}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 应用筛选
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const moodFilter = document.getElementById('moodFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            
+            // 这里可以实现筛选逻辑
+            // 目前只是重新渲染
+            renderLifeEntries();
+        }
+
+        // 打开图片模态框
+        function openImageModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            new bootstrap.Modal(document.getElementById('imageModal')).show();
+        }
+
+        // 工具函数
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function getMoodClass(mood) {
+            const moodMap = {
+                '非常开心': 'happy',
+                '比较开心': 'good',
+                '一般': 'normal',
+                '有点沮丧': 'bad',
+                '很沮丧': 'terrible'
+            };
+            return moodMap[mood] || 'normal';
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.main-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            // 3秒后自动消失
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 3000);
+        }
+
+        function scrollToForm() {
+            document.querySelector('.life-form').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+
