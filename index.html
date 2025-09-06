@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灏杨的初三奋斗日记</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        .memory-card {
+            transition: all 0.3s ease;
+        }
+        
+        .memory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .milestone {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .milestone::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .milestone::after {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 20px;
+            bottom: -10px;
+            width: 2px;
+            background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+        }
+        
+        .milestone:last-child::after {
+            display: none;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .heart-beat {
+            animation: heartBeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .comment {
+            border-left: 3px solid #6366f1;
+            padding-left: 12px;
+            margin: 8px 0;
+            padding-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app"></div>
+    
+    <script>
+        // 模拟用户数据
+        const currentUser = {
+            name: '家长',
+            avatar: 'https://placehold.co/40x40/6366f1/ffffff?text=家'
+        };
+
+        // 使用内存存储替代localStorage
+        let memories = [
+            {
+                id: 1,
+                date: '2024-09-01',
+                title: '开学第一天｜新的开始，新的挑战',
+                content: '今天是初三开学第一天，灏杨带着崭新的课本和满满的期待走进校园。放学回家后，他认真整理了书包，制定了第一周的学习计划。晚上我们一起讨论了初三的目标，他坚定地说要考上理想的高中。爸爸妈妈会一直陪伴你，为你加油！',
+                image: 'https://placehold.co/400x300/6366f1/ffffff?text=开学第一天',
+                category: '学习',
+                likes: 15,
+                views: 120,
+                author: '妈妈',
+                avatar: 'https://placehold.co/40x40/6366f1/ffffff?text=妈',
+                tags: ['开学', '新学期', '学习计划'],
+                comments: [
+                    { id: 1, author: '张老师', content: '欢迎回到校园，期待你的精彩表现！', date: '2024-09-01', avatar: 'https://placehold.co/30x30/8b5cf6/ffffff?text=张' },
+                    { id: 2, author: '李同学', content: '同桌，一起加油！', date: '2024-09-02', avatar: 'https://placehold.co/30x30/f59e0b/ffffff?text=李' }
+                ]
+            },
+            {
+                id: 2,
+                date: '2024-09-05',
+                title: '深夜解题｜攻克数学难题的坚持',
+                content: '晚上10点了，灏杨还在书桌前钻研一道数学几何题。看到他皱着眉头认真思考的样子，我们既心疼又欣慰。我们一起讨论了多种解题思路，最终找到了正确的方法。那一刻，他脸上绽放出灿烂的笑容。坚持就是胜利，每一个难题都是成长的阶梯！',
+                image: 'https://placehold.co/400x300/8b5cf6/ffffff?text=深夜学习',
+                category: '学习',
+                likes: 22,
+                views: 180,
+                author: '爸爸',
+                avatar: 'https://placehold.co/40x40/8b5cf6/ffffff?text=爸',
+                tags: ['数学', '坚持', '解题'],
+                comments: [
+                    { id: 3, author: '王老师', content: '这种钻研精神值得表扬！', date: '2024-09-06', avatar: 'https://placehold.co/30x30/ef4444/ffffff?text=王' }
+                ]
+            }
+        ];
+
+        // 当前用户信息
+        let currentUserId = 1;
+        let currentUserAvatar = 'https://placehold.co/40x40/6366f1/ffffff?text=家';
+        let currentUserName = '家长';
+
+        // 添加新记忆
+        function addMemory() {
+            const modal = document.getElementById('addMemoryModal');
+            modal.classList.remove('hidden');
+            // 清空表单
+            document.getElementById('memoryForm').reset();
+            document.getElementById('imagePreview').innerHTML = '';
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('addMemoryModal');
+            modal.classList.add('hidden');
+            document.getElementById('memoryForm').reset();
+            document.getElementById('imagePreview').innerHTML = '';
+        }
+
+        // 图片预览
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').innerHTML = 
+                        `<img src="${e.target.result}" class="image-preview" alt="预览">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitMemory(e) {
+            e.preventDefault();
+            
+            const imageInput = document.getElementById('memoryImage');
+            let imageUrl = '';
+            
+            if (imageInput.files && imageInput.files[0]) {
+                // 这里应该是上传到服务器的逻辑
+                // 由于技术限制，我们使用占位符
+                imageUrl = `https://placehold.co/400x300/${Math.floor(Math.random()*16777215).toString(16)}/ffffff?text=${encodeURIComponent(document.getElementById('memoryTitle').value)}`;
+            } else if (document.getElementById('imageUrl').value) {
+                imageUrl = document.getElementById('imageUrl').value;
+            } else {
+                imageUrl = `https://placehold.co/400x300/${Math.floor(Math.random()*16777215).toString(16)}/ffffff?text=${encodeURIComponent(document.getElementById('memoryTitle').value)}`;
+            }
+
+            const newMemory = {
+                id: Date.now(),
+                date: document.getElementById('memoryDate').value,
+                title: document.getElementById('memoryTitle').value,
+                content: document.getElementById('memoryContent').value,
+                image: imageUrl,
+                category: document.getElementById('memoryCategory').value,
+                likes: 0,
+                views: 0,
+                author: currentUserName,
+                avatar: currentUserAvatar,
+                tags: document.getElementById('memoryTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                comments: []
+            };
+
+            memories.unshift(newMemory);
+            closeAddModal();
+            renderMemories();
+        }
+
+        // 删除记忆
+        function deleteMemory(id) {
+            if (confirm('确定要删除这条记忆吗？')) {
+                memories = memories.filter(memory => memory.id !== id);
+                renderMemories();
+            }
+        }
+
+        // 点赞
+        function likeMemory(id) {
+            const memory = memories.find(m => m.id === id);
+            if (memory) {
+                memory.likes += 1;
+                renderMemories();
+            }
+        }
+
+        // 添加评论
+        function addComment(memoryId) {
+            const commentInput = document.getElementById(`commentInput-${memoryId}`);
+            const commentContent = commentInput.value.trim();
+            
+            if (commentContent) {
+                const memory = memories.find(m => m.id === memoryId);
+                if (memory) {
+                    const newComment = {
+                        id: Date.now(),
+                        author: currentUserName,
+                        content: commentContent,
+                        date: new Date().toISOString().split('T')[0],
+                        avatar: currentUserAvatar
+                    };
+                    memory.comments.push(newComment);
+                    commentInput.value = '';
+                    renderMemories();
+                }
+            }
+        }
+
+        // 删除评论
+        function deleteComment(memoryId, commentId) {
+            if (confirm('确定要删除这条评论吗？')) {
+                const memory = memories.find(m => m.id === memoryId);
+                if (memory) {
+                    memory.comments = memory.comments.filter(c => c.id !== commentId);
+                    renderMemories();
+                }
+            }
+        }
+
+        // 搜索功能
+        function searchMemories() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            const filtered = memories.filter(memory => {
+                const matchesSearch = memory.title.toLowerCase().includes(searchTerm) || 
+                                    memory.content.toLowerCase().includes(searchTerm) ||
+                                    memory.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                const matchesCategory = categoryFilter === 'all' || memory.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderMemories(filtered);
+        }
+
+        // 渲染记忆
+        function renderMemories(data = memories) {
+            const container = document.getElementById('memoriesContainer');
+            container.innerHTML = '';
+            
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
+                        <i class="fas fa-empty-set text-6xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 text-lg">还没有记录任何记忆</p>
+                        <button onclick="addMemory()" class="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full transition duration-200 flex items-center space-x-2 mx-auto">
+                            <i class="fas fa-plus"></i>
+                            <span>添加第一条记忆</span>
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach((memory, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300';
+                
+                // 确定标签颜色
+                const getCategoryColor = (category) => {
+                    switch(category) {
+                        case '学习': return 'bg-purple-100 text-purple-800';
+                        case '生活': return 'bg-yellow-100 text-yellow-800';
+                        case '运动': return 'bg-green-100 text-green-800';
+                        default: return 'bg-blue-100 text-blue-800';
+                    }
+                };
+
+                // 生成评论HTML
+                const commentsHtml = memory.comments.map(comment => `
+                    <div class="comment">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <img src="${comment.avatar}" alt="${comment.author}" class="w-6 h-6 rounded-full">
+                            <span class="font-medium text-sm">${comment.author}</span>
+                            <span class="text-xs text-gray-500">${comment.date}</span>
+                            <button onclick="deleteComment(${memory.id}, ${comment.id})" class="text-red-500 text-xs hover:text-red-700 ml-2">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm">${comment.content}</p>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${memory.image}" alt="${memory.title}" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white bg-opacity-90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(memory.category)}">
+                                ${memory.category}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">${memory.title}</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">${memory.content}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${memory.tags.map(tag => `<span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">${tag}</span>`).join('')}
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <img src="${memory.avatar}" alt="${memory.author}" class="w-8 h-8 rounded-full">
+                                <div class="text-sm">
+                                    <p class="text-gray-800 font-medium">${memory.author}</p>
+                                    <p class="text-gray-500">${memory.date}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 text-gray-500">
+                                <div class="flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="text-sm">${memory.views}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i class="far fa-comment"></i>
+                                    <span class="text-sm">${memory.comments.length}</span>
+                                </div>
+                                <button onclick="likeMemory(${memory.id})" class="flex items-center space-x-1 hover:text-purple-500 transition duration-200">
+                                    <i class="far fa-heart ${memory.likes > 0 ? 'fas text-purple-500 heart-beat' : ''}"></i>
+                                    <span class="text-sm">${memory.likes}</span>
+                                </button>
+                                <button onclick="deleteMemory(${memory.id})" class="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition duration-200">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 评论区域 -->
+                        <div class="mt-6 pt-4 border-t border-gray-100">
+                            <h4 class="font-semibold text-gray-800 mb-3">评论 (${memory.comments.length})</h4>
+                            <div id="comments-${memory.id}">
+                                ${commentsHtml || '<p class="text-gray-500 text-sm">暂无评论，快来发表第一条评论吧！</p>'}
+                            </div>
+                            
+                            <div class="flex mt-4 space-x-2">
+                                <input type="text" id="commentInput-${memory.id}" placeholder="发表您的评论..." 
+                                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <button onclick="addComment(${memory.id})" 
+                                        class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition duration-200">
+                                    评论
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 渲染统计数据
+        function renderStats() {
+            const statsContainer = document.getElementById('statsContainer');
+            statsContainer.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="stat-card p-6 rounded-xl text-center">
+                        <i class="fas fa-book-open text-3xl mb-3"></i>
+                        <h3 class="text-lg font-semibold mb-1">学习天数</h3>
+                        <p class="text-3xl font-bold">45</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl text-center">
+                        <i class="fas fa-heart text-3xl mb-3"></i>
+                        <h3 class="text-lg font-semibold mb-1">父母陪伴</h3>
+                        <p class="text-3xl font-bold">100%</p>
+                    </div>
+                    <div class="stat-card p-6 rounded-xl text-center">
+                        <i class="fas fa-trophy text-3xl mb-3"></i>
+                        <h3 class="text-lg font-semibold mb-1">进步幅度</h3>
+                        <p class="text-3xl font-bold">+35%</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">学习进度</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium">数学</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium">英语</span>
+                                <span>68%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium">语文</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium">物理</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium">化学</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">成长里程碑</h3>
+                    <div class="relative pl-8">
+                        <div class="milestone">
+                            <h4 class="font-bold text-gray-800">初三开学</h4>
+                            <p class="text-gray-600 text-sm">2024-09-01</p>
+                            <p class="text-gray-500 mt-1">开启新征程</p>
+                        </div>
+                        <div class="milestone">
+                            <h4 class="font-bold text-gray-800">第一次月考</h4>
+                            <p class="text-gray-600 text-sm">2024-09-18</p>
+                            <p class="text-gray-500 mt-1">数学进步15分</p>
+                        </div>
+                        <div class="milestone">
+                            <h4 class="font-bold text-gray-800">国庆登山</h4>
+                            <p class="text-gray-600 text-sm">2024-10-02</p>
+                            <p class="text-gray-500 mt-1">挑战自我极限</p>
+                        </div>
+                        <div class="milestone">
+                            <h4 class="font-bold text-gray-800">期中冲刺</h4>
+                            <p class="text-gray-600 text-sm">2024-10-15</p>
+                            <p class="text-gray-500 mt-1">全家总动员</p>
+                        </div>
+                        <div class="milestone">
+                            <h4 class="font-bold text-gray-800">目标高中</h4>
+                            <p class="text-gray-600 text-sm">2024-11-01</p>
+                            <p class="text-gray-500 mt-1">距离梦想更近一步</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 初始化应用
+        function initApp() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <!-- 头部 -->
+                <header class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                        <div class="text-center">
+                            <div class="inline-flex items-center justify-center w-20 h-20 bg-white bg-opacity-20 rounded-full mb-4">
+                                <i class="fas fa-star text-3xl"></i>
+                            </div>
+                            <h1 class="text-4xl md:text-5xl font-bold mb-4">灏杨的初三奋斗日记</h1>
+                            <p class="text-purple-100 text-lg mb-6">记录每一个努力的瞬间，见证每一步成长的足迹</p>
+                            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                                <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">不畏艰难</span>
+                                <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">努力奋斗</span>
+                                <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">共同成长</span>
+                                <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">父母陪伴</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- 统计数据 -->
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div id="statsContainer">
+                        <!-- 统计数据将在这里渲染 -->
+                    </div>
+
+                    <!-- 搜索和过滤 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1 relative">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="searchInput" placeholder="搜索记忆..." 
+                                       class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                       oninput="searchMemories()">
+                            </div>
+                            <div class="md:w-48">
+                                <select id="categoryFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                        onchange="searchMemories()">
+                                    <option value="all">全部分类</option>
+                                    <option value="学习">学习</option>
+                                    <option value="生活">生活</option>
+                                    <option value="运动">运动</option>
+                                </select>
+                            </div>
+                            <button onclick="addMemory()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center space-x-2">
+                                <i class="fas fa-plus"></i>
+                                <span>添加记忆</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 记忆展示 -->
+                    <div id="memoriesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 记忆卡片将在这里渲染 -->
+                    </div>
+                </div>
+
+                <!-- 添加记忆模态框 -->
+                <div id="addMemoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-2xl mx-4 transform transition-all max-h-screen overflow-y-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">记录奋斗瞬间</h2>
+                            <button onclick="closeAddModal()" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times text-2xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form id="memoryForm" onsubmit="submitMemory(event)" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">日期</label>
+                                    <input type="date" id="memoryDate" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">标题</label>
+                                    <input type="text" id="memoryTitle" placeholder="例如：深夜解题｜攻克数学难题的坚持" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">分类</label>
+                                <select id="memoryCategory" required
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <option value="">选择分类</option>
+                                    <option value="学习">学习</option>
+                                    <option value="生活">生活</option>
+                                    <option value="运动">运动</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">图片上传</label>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" id="memoryImage" accept="image/*" onchange="previewImage(event)"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <span class="text-sm text-gray-500">或</span>
+                                    <input type="url" id="imageUrl" placeholder="图片URL"
+                                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">支持上传本地图片或输入图片链接</p>
+                            </div>
+                            
+                            <div id="imagePreview" class="mt-2"></div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">内容</label>
+                                <textarea id="memoryContent" rows="6" placeholder="记录这个奋斗瞬间的细节和感受..." required
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">标签（用逗号分隔）</label>
+                                <input type="text" id="memoryTags" placeholder="例如：坚持, 努力, 成长"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <p class="text-xs text-gray-500 mt-1">添加标签可以帮助分类和搜索</p>
+                            </div>
+                            
+                            <div class="flex space-x-4 pt-4">
+                                <button type="button" onclick="closeAddModal()" 
+                                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium">
+                                    取消
+                                </button>
+                                <button type="submit" 
+                                        class="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200 font-medium">
+                                    发布分享
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 页脚 -->
+                <footer class="bg-gray-800 text-white py-8">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                        <p class="text-gray-300">© 2024 灏杨的初三奋斗日记</p>
+                        <p class="text-gray-400 text-sm mt-2">记录奋斗的每一天，见证成长的每一刻</p>
+                        <div class="flex justify-center space-x-4 mt-4 text-2xl">
+                            <i class="fas fa-book-open text-purple-400"></i>
+                            <i class="fas fa-heart text-red-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                    </div>
+                </footer>
+            `;
+
+            // 渲染统计数据和记忆
+            renderStats();
+            renderMemories();
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
