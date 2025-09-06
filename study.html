@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习记录 - 灏杨的初三日记</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .main-container {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .study-form {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-custom {
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success-color), #10b981);
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+            color: white;
+        }
+
+        .study-entry {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .study-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .entry-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .entry-subject {
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .entry-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .entry-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .mood-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .mood-happy { background: linear-gradient(135deg, #28a745, #20c997); color: white; }
+        .mood-good { background: linear-gradient(135deg, #17a2b8, #6f42c1); color: white; }
+        .mood-normal { background: linear-gradient(135deg, #ffc107, #fd7e14); color: white; }
+        .mood-bad { background: linear-gradient(135deg, #dc3545, #e74c3c); color: white; }
+        .mood-terrible { background: linear-gradient(135deg, #6c757d, #495057); color: white; }
+
+        .filter-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--border-color);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .page-link {
+            border-radius: 8px;
+            margin: 0 2px;
+            border: 1px solid var(--border-color);
+            color: var(--primary-color);
+        }
+
+        .page-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .study-form {
+                padding: 20px;
+            }
+            
+            .entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .entry-stats {
+                gap: 15px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i>灏杨的初三日记
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="study.html">
+                            <i class="fas fa-book me-1"></i>学习记录
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exams.html">
+                            <i class="fas fa-file-alt me-1"></i>试卷管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="life.html">
+                            <i class="fas fa-camera me-1"></i>生活记录
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="progress.html">
+                            <i class="fas fa-chart-line me-1"></i>学习进度
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="main-container">
+        <!-- 添加学习记录表单 -->
+        <div class="study-form">
+            <h2 class="mb-4">
+                <i class="fas fa-plus-circle text-primary me-2"></i>添加学习记录
+            </h2>
+            <form id="studyForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="studyDate" class="form-label">学习日期</label>
+                        <input type="date" class="form-control" id="studyDate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subject" class="form-label">学习科目</label>
+                        <select class="form-select" id="subject" required>
+                            <option value="">请选择科目</option>
+                            <option value="数学">数学</option>
+                            <option value="语文">语文</option>
+                            <option value="英语">英语</option>
+                            <option value="物理">物理</option>
+                            <option value="化学">化学</option>
+                            <option value="生物">生物</option>
+                            <option value="地理">地理</option>
+                            <option value="历史">历史</option>
+                            <option value="道德与法治">道德与法治</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="content" class="form-label">学习内容</label>
+                        <textarea class="form-control" id="content" rows="4" placeholder="请详细描述今天学习的内容..." required></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="achievements" class="form-label">学习收获</label>
+                        <textarea class="form-control" id="achievements" rows="3" placeholder="今天学到了什么？有什么新的理解？" required></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="challenges" class="form-label">遇到的困难</label>
+                        <textarea class="form-control" id="challenges" rows="3" placeholder="学习中遇到了什么困难？" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="nextSteps" class="form-label">下一步计划</label>
+                        <textarea class="form-control" id="nextSteps" rows="3" placeholder="明天或接下来要学习什么？" required></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="mood" class="form-label">学习心情</label>
+                        <select class="form-select" id="mood" required>
+                            <option value="">请选择心情</option>
+                            <option value="非常开心">非常开心 😊</option>
+                            <option value="比较开心">比较开心 😄</option>
+                            <option value="一般">一般 😐</option>
+                            <option value="有点沮丧">有点沮丧 😔</option>
+                            <option value="很沮丧">很沮丧 😢</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="studyHours" class="form-label">学习时长（小时）</label>
+                        <input type="number" class="form-control" id="studyHours" step="0.5" min="0" max="12" placeholder="2.5" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="efficiency" class="form-label">学习效率</label>
+                        <select class="form-select" id="efficiency" required>
+                            <option value="">请选择效率</option>
+                            <option value="很高">很高 ⭐⭐⭐⭐⭐</option>
+                            <option value="较高">较高 ⭐⭐⭐⭐</option>
+                            <option value="一般">一般 ⭐⭐⭐</option>
+                            <option value="较低">较低 ⭐⭐</option>
+                            <option value="很低">很低 ⭐</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 text-end">
+                    <button type="button" class="btn btn-secondary me-2" onclick="resetForm()">重置</button>
+                    <button type="submit" class="btn-custom btn-primary-custom">
+                        <i class="fas fa-save me-2"></i>保存记录
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 筛选和搜索 -->
+        <div class="filter-section">
+            <h3 class="filter-title">
+                <i class="fas fa-filter me-2"></i>筛选和搜索
+            </h3>
+            <div class="filter-controls">
+                <div class="flex-grow-1">
+                    <input type="text" class="form-control" id="searchInput" placeholder="搜索学习内容...">
+                </div>
+                <div>
+                    <select class="form-select" id="subjectFilter">
+                        <option value="">所有科目</option>
+                        <option value="数学">数学</option>
+                        <option value="语文">语文</option>
+                        <option value="英语">英语</option>
+                        <option value="物理">物理</option>
+                        <option value="化学">化学</option>
+                        <option value="生物">生物</option>
+                        <option value="地理">地理</option>
+                        <option value="历史">历史</option>
+                        <option value="道德与法治">道德与法治</option>
+                    </select>
+                </div>
+                <div>
+                    <select class="form-select" id="moodFilter">
+                        <option value="">所有心情</option>
+                        <option value="非常开心">非常开心</option>
+                        <option value="比较开心">比较开心</option>
+                        <option value="一般">一般</option>
+                        <option value="有点沮丧">有点沮丧</option>
+                        <option value="很沮丧">很沮丧</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="date" class="form-control" id="dateFilter">
+                </div>
+                <div>
+                    <button class="btn-custom btn-primary-custom" onclick="applyFilters()">
+                        <i class="fas fa-search me-1"></i>筛选
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习记录列表 -->
+        <div id="studyEntries">
+            <h3 class="mb-4">
+                <i class="fas fa-list me-2"></i>学习记录
+                <span class="badge bg-primary ms-2" id="entryCount">0</span>
+            </h3>
+            <div id="entriesList">
+                <!-- 示例记录 -->
+                <div class="study-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">2024年1月15日</div>
+                        <div class="entry-subject">数学</div>
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习内容：</strong>二次函数的图像与性质，包括顶点式、一般式和交点式的转换，以及二次函数在实际问题中的应用。
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习收获：</strong>掌握了二次函数三种表达式的相互转换，理解了顶点坐标公式的推导过程，能够解决简单的实际问题。
+                    </div>
+                    <div class="entry-content">
+                        <strong>遇到困难：</strong>在解决复杂应用题时，建立函数关系式比较困难，需要多练习。
+                    </div>
+                    <div class="entry-content">
+                        <strong>下一步计划：</strong>继续练习二次函数的应用题，重点掌握建立函数关系式的方法。
+                    </div>
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-clock text-primary"></i>
+                            <span>2.5小时</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-good">比较开心</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>效率较高</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="study-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">2024年1月14日</div>
+                        <div class="entry-subject">英语</div>
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习内容：</strong>复习了英语语法中的时态，重点学习了现在完成时和过去完成时的区别，以及它们在句子中的应用。
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习收获：</strong>清楚了现在完成时和过去完成时的使用场景，能够正确区分两种时态。
+                    </div>
+                    <div class="entry-content">
+                        <strong>遇到困难：</strong>在写作中运用时态时还不够熟练，需要多练习。
+                    </div>
+                    <div class="entry-content">
+                        <strong>下一步计划：</strong>多做时态相关的练习题，提高在写作中的运用能力。
+                    </div>
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-clock text-primary"></i>
+                            <span>1.5小时</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-normal">一般</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>效率一般</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-book-open"></i>
+                <h3>还没有学习记录</h3>
+                <p>开始记录你的学习历程吧！</p>
+                <button class="btn-custom btn-primary-custom" onclick="scrollToForm()">
+                    <i class="fas fa-plus me-2"></i>添加第一条记录
+                </button>
+            </div>
+
+            <!-- 分页 -->
+            <nav aria-label="学习记录分页">
+                <ul class="pagination" id="pagination">
+                    <!-- 分页按钮将通过JavaScript生成 -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义JavaScript -->
+    <script>
+        // 学习记录数据
+        let studyEntries = [
+            {
+                id: 1,
+                date: '2024-01-15',
+                subject: '数学',
+                content: '二次函数的图像与性质，包括顶点式、一般式和交点式的转换，以及二次函数在实际问题中的应用。',
+                achievements: '掌握了二次函数三种表达式的相互转换，理解了顶点坐标公式的推导过程，能够解决简单的实际问题。',
+                challenges: '在解决复杂应用题时，建立函数关系式比较困难，需要多练习。',
+                nextSteps: '继续练习二次函数的应用题，重点掌握建立函数关系式的方法。',
+                mood: '比较开心',
+                studyHours: 2.5,
+                efficiency: '较高'
+            },
+            {
+                id: 2,
+                date: '2024-01-14',
+                subject: '英语',
+                content: '复习了英语语法中的时态，重点学习了现在完成时和过去完成时的区别，以及它们在句子中的应用。',
+                achievements: '清楚了现在完成时和过去完成时的使用场景，能够正确区分两种时态。',
+                challenges: '在写作中运用时态时还不够熟练，需要多练习。',
+                nextSteps: '多做时态相关的练习题，提高在写作中的运用能力。',
+                mood: '一般',
+                studyHours: 1.5,
+                efficiency: '一般'
+            }
+        ];
+
+        let currentPage = 1;
+        const entriesPerPage = 5;
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置今天的日期
+            document.getElementById('studyDate').value = new Date().toISOString().split('T')[0];
+            
+            // 渲染学习记录
+            renderStudyEntries();
+            
+            // 绑定事件
+            document.getElementById('studyForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 300));
+            document.getElementById('subjectFilter').addEventListener('change', applyFilters);
+            document.getElementById('moodFilter').addEventListener('change', applyFilters);
+            document.getElementById('dateFilter').addEventListener('change', applyFilters);
+        });
+
+        // 处理表单提交
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: Date.now(),
+                date: document.getElementById('studyDate').value,
+                subject: document.getElementById('subject').value,
+                content: document.getElementById('content').value,
+                achievements: document.getElementById('achievements').value,
+                challenges: document.getElementById('challenges').value,
+                nextSteps: document.getElementById('nextSteps').value,
+                mood: document.getElementById('mood').value,
+                studyHours: parseFloat(document.getElementById('studyHours').value),
+                efficiency: document.getElementById('efficiency').value
+            };
+
+            // 添加到数组开头
+            studyEntries.unshift(formData);
+            
+            // 保存到本地存储
+            localStorage.setItem('studyEntries', JSON.stringify(studyEntries));
+            
+            // 重新渲染
+            renderStudyEntries();
+            
+            // 重置表单
+            resetForm();
+            
+            // 显示成功消息
+            showAlert('学习记录保存成功！', 'success');
+            
+            // 滚动到记录列表
+            document.getElementById('studyEntries').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('studyForm').reset();
+            document.getElementById('studyDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        // 渲染学习记录
+        function renderStudyEntries() {
+            const entriesList = document.getElementById('entriesList');
+            const emptyState = document.getElementById('emptyState');
+            const entryCount = document.getElementById('entryCount');
+            
+            // 从本地存储加载数据
+            const savedEntries = localStorage.getItem('studyEntries');
+            if (savedEntries) {
+                studyEntries = JSON.parse(savedEntries);
+            }
+            
+            if (studyEntries.length === 0) {
+                entriesList.style.display = 'none';
+                emptyState.style.display = 'block';
+                entryCount.textContent = '0';
+                return;
+            }
+            
+            entriesList.style.display = 'block';
+            emptyState.style.display = 'none';
+            entryCount.textContent = studyEntries.length;
+            
+            // 计算分页
+            const totalPages = Math.ceil(studyEntries.length / entriesPerPage);
+            const startIndex = (currentPage - 1) * entriesPerPage;
+            const endIndex = startIndex + entriesPerPage;
+            const pageEntries = studyEntries.slice(startIndex, endIndex);
+            
+            // 渲染记录
+            entriesList.innerHTML = pageEntries.map(entry => `
+                <div class="study-entry">
+                    <div class="entry-header">
+                        <div class="entry-date">${formatDate(entry.date)}</div>
+                        <div class="entry-subject">${entry.subject}</div>
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习内容：</strong>${entry.content}
+                    </div>
+                    <div class="entry-content">
+                        <strong>学习收获：</strong>${entry.achievements}
+                    </div>
+                    <div class="entry-content">
+                        <strong>遇到困难：</strong>${entry.challenges}
+                    </div>
+                    <div class="entry-content">
+                        <strong>下一步计划：</strong>${entry.nextSteps}
+                    </div>
+                    <div class="entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-clock text-primary"></i>
+                            <span>${entry.studyHours}小时</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-smile text-success"></i>
+                            <span class="mood-badge mood-${getMoodClass(entry.mood)}">${entry.mood}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>效率${entry.efficiency}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 渲染分页
+            renderPagination(totalPages);
+        }
+
+        // 渲染分页
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // 上一页
+            if (currentPage > 1) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${currentPage - 1})">上一页</a></li>`;
+            }
+            
+            // 页码
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<li class="page-item active"><a class="page-link" href="#">${i}</a></li>`;
+                } else {
+                    paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${i})">${i}</a></li>`;
+                }
+            }
+            
+            // 下一页
+            if (currentPage < totalPages) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${currentPage + 1})">下一页</a></li>`;
+            }
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // 切换页面
+        function changePage(page) {
+            currentPage = page;
+            renderStudyEntries();
+        }
+
+        // 应用筛选
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const subjectFilter = document.getElementById('subjectFilter').value;
+            const moodFilter = document.getElementById('moodFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            
+            // 这里可以实现筛选逻辑
+            // 目前只是重新渲染
+            renderStudyEntries();
+        }
+
+        // 工具函数
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function getMoodClass(mood) {
+            const moodMap = {
+                '非常开心': 'happy',
+                '比较开心': 'good',
+                '一般': 'normal',
+                '有点沮丧': 'bad',
+                '很沮丧': 'terrible'
+            };
+            return moodMap[mood] || 'normal';
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.main-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            // 3秒后自动消失
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 3000);
+        }
+
+        function scrollToForm() {
+            document.querySelector('.study-form').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+
